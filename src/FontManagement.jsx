@@ -15,7 +15,7 @@ const FontManagement = () => {
             formData.append('file[]', files[i]);
         }
 
-        axios.post('upload.php', formData, {
+        axios.post('http://localhost:5173/font-uploading/upload.php', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -38,7 +38,7 @@ const FontManagement = () => {
 
     // Fetch the list of fonts from the server
     const fetchFontList = () => {
-        axios.get('get_fonts.php') // Replace with your API endpoint
+        axios.get('http://localhost:5173/font-uploading/get_fonts.php') // Replace with your actual font list endpoint
             .then((response) => {
                 if (response.data.success) {
                     setFonts(response.data.fonts);
@@ -56,21 +56,53 @@ const FontManagement = () => {
         fetchFontList();
     }, []);
 
+    // Function to handle editing a font (you can implement this)
+    const handleEdit = (font) => {
+        // Implement edit functionality here
+    };
+
+    // Function to handle deleting a font (you can implement this)
+    const handleDelete = (font) => {
+        // Implement delete functionality here
+    };
+
     return (
-        <div>
-            <h1>Font Management</h1>
+        <div className="p-4">
+            <h1 className="text-2xl font-bold mb-4">Font Management</h1>
             <input type="file" accept=".ttf" onChange={handleFileChange} multiple />
             {uploading && <p>Uploading...</p>}
-            {/* Display the uploaded fonts */}
-            <ul>
-                {fonts.map((font) => (
-                    <li key={font.id}>
-                        {font.name} - {font.previewText}
-                        <button onClick={() => handleEdit(font)}>Edit</button>
-                        <button onClick={() => handleDelete(font)}>Delete</button>
-                    </li>
-                ))}
-            </ul>
+            {/* Display the uploaded fonts in a table */}
+            <table className="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr className="bg-gray-200">
+                        <th className="p-2">Font Name</th>
+                        <th className="p-2">Preview Text</th>
+                        <th className="p-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {fonts.map((font) => (
+                        <tr key={font.id}>
+                            <td className="p-2">{font.name}</td>
+                            <td className="p-2">{font.previewText}</td>
+                            <td className="p-2">
+                                <button
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-2 rounded"
+                                    onClick={() => handleEdit(font)}
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                    onClick={() => handleDelete(font)}
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

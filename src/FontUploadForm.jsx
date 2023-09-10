@@ -34,18 +34,19 @@ const FontUploadForm = () => {
     };
 
     return (
-        <div>
+        <div className="p-4 bg-gray-100 rounded-lg shadow-lg">
             <input
                 type="file"
                 accept=".ttf"
                 onChange={handleFileChange}
                 multiple
+                className="mb-4"
             />
-            {uploading && <p>Uploading...</p>}
+            {uploading && <p className="text-blue-500">Uploading...</p>}
             {/* Display the uploaded fonts */}
-            <ul>
+            <ul className="list-disc pl-6">
                 {fonts.map((font) => (
-                    <li key={font.id}>
+                    <li key={font.id} className="text-lg text-gray-700 mb-2">
                         {font.name} - {font.previewText}
                     </li>
                 ))}
